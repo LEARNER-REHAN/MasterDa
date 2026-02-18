@@ -1,20 +1,50 @@
-// Initialize animation
+// Initialize AOS
 AOS.init();
 
-// Select elements
-const button = document.getElementById("connectBtn");
-const message = document.getElementById("message");
+// Typing Animation
+const typingElement = document.querySelector(".typing");
+const words = [
+    "Master Da",
+    "Bur chetta ✨",
+    "Tel chatai"
+];
 
-// Button Click Effect
-button.addEventListener("click", () => {
+let wordIndex = 0;
+let charIndex = 0;
 
-    message.innerHTML = "PH No . -> +91 93312 14414";
-    
-    // Smooth fade effect
-    message.style.opacity = "0";
-    setTimeout(() => {
-        message.style.opacity = "1";
-        message.style.transition = "opacity 0.5s ease";
-    }, 100);
+function typeEffect() {
+    if (charIndex < words[wordIndex].length) {
+        typingElement.textContent += words[wordIndex].charAt(charIndex);
+        charIndex++;
+        setTimeout(typeEffect, 80);
+    } else {
+        setTimeout(eraseEffect, 1500);
+    }
+}
 
+function eraseEffect() {
+    if (charIndex > 0) {
+        typingElement.textContent =
+            words[wordIndex].substring(0, charIndex - 1);
+        charIndex--;
+        setTimeout(eraseEffect, 40);
+    } else {
+        wordIndex = (wordIndex + 1) % words.length;
+        setTimeout(typeEffect, 200);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(typeEffect, 500);
+});
+
+// Particles Configuration
+particlesJS("particles-js", {
+    particles: {
+        number: { value: 80 },
+        size: { value: 3 },
+        move: { speed: 2 },
+        line_linked: { enable: true },
+        color: { value: "#00f7ff" }
+    }
 });
